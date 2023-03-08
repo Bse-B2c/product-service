@@ -18,7 +18,7 @@ export class Product {
 	@Column()
 	price: number;
 
-	@Column()
+	@Column({ default: new Date() })
 	createdAt: Date;
 
 	@Column()
@@ -27,6 +27,6 @@ export class Product {
 	@Column()
 	categoryId: number;
 
-	@Column({ default: [], array: true, type: 'string' })
+	@Column({ default: [], array: true, type: 'varchar' })
 	images: Array<string>;
 }
