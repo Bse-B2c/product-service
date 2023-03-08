@@ -19,6 +19,7 @@
       "@src/*": ["./*"],
       "@middleware/*": ["./middleware/*"],
       "@common/*": ["./common/*"],
+      "@product/*": ["./product/*"]
     }
   },
   "include": ["./**/*.ts"]
