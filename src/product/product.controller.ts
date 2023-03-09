@@ -29,4 +29,20 @@ export class ProductController {
 			next(e);
 		}
 	};
+
+	findOne = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const { id } = req.params;
+
+			const response = await this.service.findOne(+id);
+
+			return res.status(HttpStatusCode.CREATED).send({
+				statusCode: HttpStatusCode.CREATED,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
 }
