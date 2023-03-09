@@ -3,4 +3,5 @@ import { ProductDto } from '@product/dtos/product.dto';
 
 export interface ProductService {
 	create(product: ProductDto): Promise<Product>;
+	findOne(id: number): Promise<Product>;
 }
