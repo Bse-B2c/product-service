@@ -7,10 +7,13 @@ import { productController } from '@src/product';
 
 // dtos
 import { ProductDto } from '@product/dtos/product.dto';
+import { ParamsDto } from '@common/dtos/params.dto';
 
 // validate
 const validateBody = validate('body');
+const validateParams = validate('params');
 
 router.post('/', validateBody(ProductDto), productController.create);
+router.get('/:id', validateParams(ParamsDto), productController.findOne);
 
 export default router;
