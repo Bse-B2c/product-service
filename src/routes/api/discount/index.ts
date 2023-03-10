@@ -16,5 +16,11 @@ const validateParams = validate('params');
 router.post('/', validateBody(DiscountDto), discountController.create);
 router.get('/:id', validateParams(ParamsDto), discountController.findOne);
 router.delete('/:id', validateParams(ParamsDto), discountController.delete);
+router.put(
+	'/:id',
+	validateParams(ParamsDto),
+	validateBody(DiscountDto),
+	discountController.update
+);
 
 export default router;
