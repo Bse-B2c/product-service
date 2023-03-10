@@ -1,8 +1,9 @@
 import { DiscountService as Service } from '@discount/interfaces/discountService.interface';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { Discount } from '@discount/entity/discount.entity';
 import { DiscountDto } from '@discount/dtos/discount.dto';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
+import { SearchDto } from '@discount/dtos/search.dto';
 
 export class DiscountService implements Service {
 	constructor(private repository: Repository<Discount>) {}
@@ -58,5 +59,27 @@ export class DiscountService implements Service {
 		Object.assign(discount, { name, active, discountPercent });
 
 		return this.repository.save(discount);
+	};
+
+	find = async (search: SearchDto): Promise<Array<Discount>> => {
+		const {
+			name,
+			sortOrder = 'ASC',
+			orderBy = 'name',
+			page = 0,
+			limit = 10,
+		} = search;
+		let where: FindOptionsWhere<Discount> = {};
+
+		if (name) where = { ...where, name: ILike(name) };
+
+		return this.repository.find({
+			relations: { product: true },
+			loadRelationIds: true,
+			where,
+			order: { [orderBy]: sortOrder },
+			take: limit,
+			skip: limit * page,
+		});
 	};
 }
