@@ -18,8 +18,4 @@ export class DiscountDto {
 	@IsOptional()
 	@IsBoolean()
 	active: boolean;
-
-	@IsNotEmpty()
-	@IsNumber()
-	productId: number;
 }
