@@ -36,7 +36,10 @@ export class ProductService implements Service {
 	};
 
 	findOne = async (id: number): Promise<Product> => {
-		const product = await this.repository.findOne({ where: { id } });
+		const product = await this.repository.findOne({
+			relations: { discount: true },
+			where: { id },
+		});
 
 		if (!product)
 			throw new HttpException({
