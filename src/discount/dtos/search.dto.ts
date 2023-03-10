@@ -11,12 +11,12 @@ import {
 
 export class SearchDto extends BaseSearchFilter {
 	@IsOptional()
+	@IsNumber({}, { each: true })
 	@Transform(({ value }) => {
 		if (value) return formatQueryToArray(value).map((e: string) => +e);
 
 		return value;
 	})
-	@IsNumber()
 	ids: Array<number>;
 
 	@IsOptional()
