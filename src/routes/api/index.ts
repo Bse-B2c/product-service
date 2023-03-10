@@ -4,7 +4,7 @@ import discount from '@src/routes/api/discount';
 
 const router = Router();
 
-router.use('/', product);
 router.use('/discount', discount);
+router.use('/', product);
 
 export default router;

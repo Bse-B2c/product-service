@@ -76,7 +76,7 @@ export class DiscountService implements Service {
 
 		if (ids) where = { ...where, id: In(ids) };
 
-		if (name) where = { ...where, name: ILike(name) };
+		if (name) where = { ...where, name: ILike(`%${name}%`) };
 
 		if (discountPercent)
 			where = { ...where, discountPercent: Equal(discountPercent) };
