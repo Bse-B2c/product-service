@@ -32,5 +32,5 @@ export class Product {
 	images: Array<string>;
 
 	@ManyToOne(() => Discount, discount => discount.product, { nullable: true })
-	discount: Discount;
+	discount: Discount | null;
 }
