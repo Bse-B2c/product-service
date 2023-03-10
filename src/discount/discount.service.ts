@@ -1,5 +1,5 @@
 import { DiscountService as Service } from '@discount/interfaces/discountService.interface';
-import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
+import { Equal, FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { Discount } from '@discount/entity/discount.entity';
 import { DiscountDto } from '@discount/dtos/discount.dto';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
@@ -65,6 +65,7 @@ export class DiscountService implements Service {
 		const {
 			ids,
 			name,
+			discountPercent,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -75,6 +76,9 @@ export class DiscountService implements Service {
 		if (ids) where = { ...where, id: In(ids) };
 
 		if (name) where = { ...where, name: ILike(name) };
+
+		if (discountPercent)
+			where = { ...where, discountPercent: Equal(discountPercent) };
 
 		return this.repository.find({
 			relations: { product: true },
