@@ -66,6 +66,7 @@ export class DiscountService implements Service {
 			ids,
 			name,
 			discountPercent,
+			active,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -79,6 +80,8 @@ export class DiscountService implements Service {
 
 		if (discountPercent)
 			where = { ...where, discountPercent: Equal(discountPercent) };
+
+		if (active !== undefined) where = { active: Equal(active) };
 
 		return this.repository.find({
 			relations: { product: true },
