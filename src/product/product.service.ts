@@ -46,4 +46,12 @@ export class ProductService implements Service {
 
 		return product;
 	};
+
+	delete = async (id: number): Promise<Product> => {
+		const product = await this.findOne(id);
+
+		await this.repository.delete(id);
+
+		return product;
+	};
 }
