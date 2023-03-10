@@ -15,6 +15,9 @@ export class Discount {
 	@Column({ default: false })
 	active: boolean;
 
-	@OneToMany(() => Product, product => product.discount)
+	@OneToMany(() => Product, product => product.discount, {
+		cascade: true,
+		onDelete: 'CASCADE',
+	})
 	product: Array<Product>;
 }

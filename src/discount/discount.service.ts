@@ -28,4 +28,24 @@ export class DiscountService implements Service {
 
 		return this.repository.save(newDiscount);
 	};
+
+	findOne = async (id: number): Promise<Discount> => {
+		const discount = await this.repository.findOne({ where: { id } });
+
+		if (!discount)
+			throw new HttpException({
+				statusCode: HttpStatusCode.NOT_FOUND,
+				message: `Discount ${id} not found`,
+			});
+
+		return discount;
+	};
+
+	delete = async (id: number): Promise<Discount> => {
+		const discount = await this.findOne(id);
+
+		await this.repository.delete(id);
+
+		return discount;
+	};
 }
