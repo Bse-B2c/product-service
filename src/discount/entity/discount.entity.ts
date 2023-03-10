@@ -12,7 +12,7 @@ export class Discount {
 	@Column()
 	discountPercent: number;
 
-	@Column()
+	@Column({ default: false })
 	active: boolean;
 
 	@OneToMany(() => Product, product => product.discount)
