@@ -59,4 +59,23 @@ export class DiscountController {
 			next(e);
 		}
 	};
+
+	update = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const {
+				params: { id },
+				body,
+			} = req;
+
+			const response = await this.service.update(+id, body);
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
 }
