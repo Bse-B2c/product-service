@@ -5,4 +5,5 @@ export interface DiscountService {
 	create(discount: DiscountDto): Promise<Discount>;
 	findOne(id: number): Promise<Discount>;
 	delete(id: number): Promise<Discount>;
+	update(id: number, discount: DiscountDto): Promise<Discount>;
 }

@@ -48,4 +48,15 @@ export class DiscountService implements Service {
 
 		return discount;
 	};
+
+	update = async (
+		id: number,
+		{ name, active, discountPercent }: DiscountDto
+	): Promise<Discount> => {
+		const discount = await this.findOne(id);
+
+		Object.assign(discount, { name, active, discountPercent });
+
+		return this.repository.save(discount);
+	};
 }
