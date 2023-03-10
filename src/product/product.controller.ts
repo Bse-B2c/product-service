@@ -36,8 +36,8 @@ export class ProductController {
 
 			const response = await this.service.findOne(+id);
 
-			return res.status(HttpStatusCode.CREATED).send({
-				statusCode: HttpStatusCode.CREATED,
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
 				error: null,
 				data: response,
 			});
@@ -52,8 +52,8 @@ export class ProductController {
 
 			const response = await this.service.delete(+id);
 
-			return res.status(HttpStatusCode.CREATED).send({
-				statusCode: HttpStatusCode.CREATED,
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
 				error: null,
 				data: response,
 			});
