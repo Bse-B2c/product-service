@@ -1,5 +1,5 @@
 import { DiscountService as Service } from '@discount/interfaces/discountService.interface';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { Discount } from '@discount/entity/discount.entity';
 import { DiscountDto } from '@discount/dtos/discount.dto';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
@@ -63,6 +63,7 @@ export class DiscountService implements Service {
 
 	find = async (search: SearchDto): Promise<Array<Discount>> => {
 		const {
+			ids,
 			name,
 			sortOrder = 'ASC',
 			orderBy = 'name',
@@ -70,6 +71,8 @@ export class DiscountService implements Service {
 			limit = 10,
 		} = search;
 		let where: FindOptionsWhere<Discount> = {};
+
+		if (ids) where = { ...where, id: In(ids) };
 
 		if (name) where = { ...where, name: ILike(name) };
 
