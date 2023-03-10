@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Discount } from '@src/discount/entity/discount.entity';
 
 //TODO: Add inventory property
 //TODO: Add discount property
@@ -29,4 +30,7 @@ export class Product {
 
 	@Column({ default: [], array: true, type: 'varchar' })
 	images: Array<string>;
+
+	@ManyToOne(() => Discount, discount => discount.product, { nullable: true })
+	discount: Discount;
 }
