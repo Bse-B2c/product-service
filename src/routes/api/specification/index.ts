@@ -6,7 +6,10 @@ const router = Router();
 import { specificationController } from '@src/specification/';
 
 // dtos
-import { SpecificationDto } from '@specification/dtos/specification.dto';
+import {
+	CreateSpecificationDto,
+	SpecificationDto,
+} from '@specification/dtos/specification.dto';
 import { ParamsDto } from '@common/dtos/params.dto';
 
 // validate
@@ -15,8 +18,14 @@ const validateParams = validate('params');
 
 router.post(
 	'/',
-	validateBody(SpecificationDto),
+	validateBody(CreateSpecificationDto),
 	specificationController.create
+);
+router.put(
+	'/:id',
+	validateParams(ParamsDto),
+	validateBody(SpecificationDto),
+	specificationController.update
 );
 router.get('/:id', validateParams(ParamsDto), specificationController.findOne);
 router.delete(
