@@ -8,7 +8,9 @@ export class SpecificationDto {
 	@IsString()
 	@IsNotEmpty()
 	value: string;
+}
 
+export class CreateSpecificationDto extends SpecificationDto {
 	@IsNumber()
 	@IsNotEmpty()
 	productId: number;

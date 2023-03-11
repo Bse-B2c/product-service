@@ -1,6 +1,6 @@
 import { SpecificationService } from '@specification/interfaces/specificationService.interface';
 import { NextFunction, Request, Response } from 'express';
-import { SpecificationDto } from '@specification/dtos/specification.dto';
+import { CreateSpecificationDto } from '@specification/dtos/specification.dto';
 import { HttpStatusCode } from '@bse-b2c/common';
 import { ParamsDto } from '@common/dtos/params.dto';
 
@@ -10,7 +10,7 @@ export class SpecificationController {
 	create = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { productId, value, label } =
-				req.body as unknown as SpecificationDto;
+				req.body as unknown as CreateSpecificationDto;
 
 			const response = await this.service.create({ productId, value, label });
 
@@ -45,6 +45,25 @@ export class SpecificationController {
 			const { id } = req.params as unknown as ParamsDto;
 
 			const response = await this.service.delete(id);
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
+	update = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const {
+				params: { id },
+				body,
+			} = req;
+
+			const response = await this.service.update(+id, body);
 
 			return res.status(HttpStatusCode.OK).send({
 				statusCode: HttpStatusCode.OK,
