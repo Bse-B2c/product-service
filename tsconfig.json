@@ -20,7 +20,8 @@
       "@middleware/*": ["./middleware/*"],
       "@common/*": ["./common/*"],
       "@product/*": ["./product/*"],
-      "@discount/*": ["./discount/*"]
+      "@discount/*": ["./discount/*"],
+      "@specification/*": ["./specification/*"]
     }
   },
   "include": ["./**/*.ts"]
