@@ -64,6 +64,7 @@ export class SpecificationService implements Service {
 		const {
 			ids,
 			label,
+			value,
 			sortOrder = 'ASC',
 			orderBy = 'label',
 			page = 0,
@@ -74,6 +75,8 @@ export class SpecificationService implements Service {
 		if (ids) where = { ...where, id: In(ids) };
 
 		if (label) where = { ...where, label: ILike(`%${label}%`) };
+
+		if (value) where = { ...where, label: ILike(`%${value}%`) };
 
 		return this.repository.find({
 			relations: { product: true },
