@@ -4,9 +4,11 @@ import {
 	CreateSpecificationDto,
 	SpecificationDto,
 } from '@specification/dtos/specification.dto';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { ProductService } from '@product/interfaces/productService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
+import { SearchDto } from '@specification/dtos/search.dto';
+import { Discount } from '@discount/entity/discount.entity';
 
 export class SpecificationService implements Service {
 	constructor(
@@ -57,5 +59,24 @@ export class SpecificationService implements Service {
 		Object.assign(specification, { value, label });
 
 		return this.repository.save(specification);
+	};
+
+	find = async (search: SearchDto): Promise<Array<Specification>> => {
+		const {
+			sortOrder = 'ASC',
+			orderBy = 'label',
+			page = 0,
+			limit = 10,
+		} = search;
+		let where: FindOptionsWhere<Discount> = {};
+
+		return this.repository.find({
+			relations: { product: true },
+			loadRelationIds: true,
+			where,
+			order: { [orderBy]: sortOrder },
+			take: limit,
+			skip: limit * page,
+		});
 	};
 }
