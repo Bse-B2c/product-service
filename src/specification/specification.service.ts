@@ -4,7 +4,7 @@ import {
 	CreateSpecificationDto,
 	SpecificationDto,
 } from '@specification/dtos/specification.dto';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { ProductService } from '@product/interfaces/productService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@specification/dtos/search.dto';
@@ -63,12 +63,15 @@ export class SpecificationService implements Service {
 
 	find = async (search: SearchDto): Promise<Array<Specification>> => {
 		const {
+			ids,
 			sortOrder = 'ASC',
 			orderBy = 'label',
 			page = 0,
 			limit = 10,
 		} = search;
 		let where: FindOptionsWhere<Discount> = {};
+
+		if (ids) where = { ...where, id: In(ids) };
 
 		return this.repository.find({
 			relations: { product: true },
