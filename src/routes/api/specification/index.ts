@@ -11,16 +11,19 @@ import {
 	SpecificationDto,
 } from '@specification/dtos/specification.dto';
 import { ParamsDto } from '@common/dtos/params.dto';
+import { SearchDto } from '@specification/dtos/search.dto';
 
 // validate
 const validateBody = validate('body');
 const validateParams = validate('params');
+const validateQuery = validate('query');
 
 router.post(
 	'/',
 	validateBody(CreateSpecificationDto),
 	specificationController.create
 );
+router.get('/', validateQuery(SearchDto), specificationController.find);
 router.put(
 	'/:id',
 	validateParams(ParamsDto),
