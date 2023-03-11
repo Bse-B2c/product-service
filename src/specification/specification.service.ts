@@ -4,11 +4,10 @@ import {
 	CreateSpecificationDto,
 	SpecificationDto,
 } from '@specification/dtos/specification.dto';
-import { FindOptionsWhere, In, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { ProductService } from '@product/interfaces/productService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@specification/dtos/search.dto';
-import { Discount } from '@discount/entity/discount.entity';
 
 export class SpecificationService implements Service {
 	constructor(
@@ -64,14 +63,17 @@ export class SpecificationService implements Service {
 	find = async (search: SearchDto): Promise<Array<Specification>> => {
 		const {
 			ids,
+			label,
 			sortOrder = 'ASC',
 			orderBy = 'label',
 			page = 0,
 			limit = 10,
 		} = search;
-		let where: FindOptionsWhere<Discount> = {};
+		let where: FindOptionsWhere<Specification> = {};
 
 		if (ids) where = { ...where, id: In(ids) };
+
+		if (label) where = { ...where, label: ILike(`%${label}%`) };
 
 		return this.repository.find({
 			relations: { product: true },
