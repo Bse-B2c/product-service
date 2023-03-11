@@ -36,4 +36,12 @@ export class SpecificationService implements Service {
 
 		return specification;
 	};
+
+	delete = async (id: number): Promise<Specification> => {
+		const specification = await this.findOne(id);
+
+		await this.repository.delete(id);
+
+		return specification;
+	};
 }
