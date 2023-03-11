@@ -19,5 +19,10 @@ router.post(
 	specificationController.create
 );
 router.get('/:id', validateParams(ParamsDto), specificationController.findOne);
+router.delete(
+	'/:id',
+	validateParams(ParamsDto),
+	specificationController.delete
+);
 
 export default router;
