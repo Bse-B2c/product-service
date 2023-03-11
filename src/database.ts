@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { Product } from '@product/entity/product.entity';
 import { Discount } from '@src/discount/entity/discount.entity';
+import { Specification } from '@specification/entity/specification.entity';
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ export const dataSource = new DataSource({
 	username: process.env['TYPEORM_USERNAME'],
 	password: process.env['TYPEORM_PASSWORD'],
 	database: process.env['TYPEORM_DATABASE'],
-	entities: [Product, Discount],
+	entities: [Product, Discount, Specification],
 	synchronize: true,
 });
 

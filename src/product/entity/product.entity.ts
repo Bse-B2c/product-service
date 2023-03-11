@@ -1,9 +1,14 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+	Column,
+	Entity,
+	ManyToOne,
+	OneToMany,
+	PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Discount } from '@src/discount/entity/discount.entity';
+import { Specification } from '@specification/entity/specification.entity';
 
 //TODO: Add inventory property
-//TODO: Add discount property
-//TODO: Add specifications property
 
 @Entity()
 export class Product {
@@ -33,4 +38,7 @@ export class Product {
 
 	@ManyToOne(() => Discount, discount => discount.product, { nullable: true })
 	discount: Discount | null;
+
+	@OneToMany(() => Specification, specification => specification.product)
+	specifications: Array<Specification>;
 }
