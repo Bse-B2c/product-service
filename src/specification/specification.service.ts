@@ -1,6 +1,9 @@
 import { SpecificationService as Service } from '@specification/interfaces/specificationService.interface';
 import { Specification } from '@specification/entity/specification.entity';
-import { SpecificationDto } from '@specification/dtos/specification.dto';
+import {
+	CreateSpecificationDto,
+	SpecificationDto,
+} from '@specification/dtos/specification.dto';
 import { Repository } from 'typeorm';
 import { ProductService } from '@product/interfaces/productService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
@@ -14,7 +17,7 @@ export class SpecificationService implements Service {
 	create = async ({
 		productId,
 		...specification
-	}: SpecificationDto): Promise<Specification> => {
+	}: CreateSpecificationDto): Promise<Specification> => {
 		const product = await this.productService.findOne(productId);
 
 		const newSpecification = this.repository.create({
@@ -43,5 +46,16 @@ export class SpecificationService implements Service {
 		await this.repository.delete(id);
 
 		return specification;
+	};
+
+	update = async (
+		id: number,
+		{ value, label }: SpecificationDto
+	): Promise<Specification> => {
+		const specification = await this.findOne(id);
+
+		Object.assign(specification, { value, label });
+
+		return this.repository.save(specification);
 	};
 }
