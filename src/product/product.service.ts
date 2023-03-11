@@ -37,7 +37,7 @@ export class ProductService implements Service {
 
 	findOne = async (id: number): Promise<Product> => {
 		const product = await this.repository.findOne({
-			relations: { discount: true },
+			relations: { discount: true, specifications: true },
 			where: { id },
 		});
 
