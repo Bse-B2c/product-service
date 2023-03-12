@@ -21,7 +21,8 @@
       "@common/*": ["./common/*"],
       "@product/*": ["./product/*"],
       "@discount/*": ["./discount/*"],
-      "@specification/*": ["./specification/*"]
+      "@specification/*": ["./specification/*"],
+      "@inventory/*": ["./inventory/*"]
     }
   },
   "include": ["./**/*.ts"]
