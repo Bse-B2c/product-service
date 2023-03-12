@@ -8,8 +8,15 @@ export class ProductController {
 
 	create = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const { name, images, description, releaseDate, categoryId, price } =
-				req.body as unknown as ProductDto;
+			const {
+				name,
+				images,
+				description,
+				releaseDate,
+				categoryId,
+				discountId,
+				price,
+			} = req.body as unknown as ProductDto;
 
 			const response = await this.service.create({
 				name,
@@ -18,6 +25,7 @@ export class ProductController {
 				releaseDate,
 				categoryId,
 				price,
+				discountId,
 			});
 
 			return res.status(HttpStatusCode.CREATED).send({
