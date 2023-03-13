@@ -16,6 +16,7 @@ export class ProductController {
 				categoryId,
 				discountId,
 				price,
+				quantity,
 			} = req.body as unknown as ProductDto;
 
 			const response = await this.service.create({
@@ -26,6 +27,7 @@ export class ProductController {
 				categoryId,
 				price,
 				discountId,
+				quantity,
 			});
 
 			return res.status(HttpStatusCode.CREATED).send({

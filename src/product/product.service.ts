@@ -4,11 +4,13 @@ import { Product } from '@product/entity/product.entity';
 import { Repository } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { DiscountService } from '@discount/interfaces/discountService.interface';
+import { InventoryService } from '@inventory/interfaces/inventoryService.interface';
 
 export class ProductService implements Service {
 	constructor(
 		private repository: Repository<Product>,
-		private discountService: DiscountService
+		private discountService: DiscountService,
+		private inventoryService: InventoryService
 	) {}
 
 	create = async ({
@@ -19,9 +21,11 @@ export class ProductService implements Service {
 		categoryId,
 		discountId,
 		price,
+		quantity,
 	}: ProductDto): Promise<Product> => {
 		const product = await this.repository.findOne({ where: { name } });
 		let discount = null;
+		let inventory = null;
 
 		if (product)
 			throw new HttpException({
@@ -31,7 +35,9 @@ export class ProductService implements Service {
 
 		if (discountId) discount = await this.discountService.findOne(discountId);
 
-		const newProduct = await this.repository.create({
+		if (quantity) inventory = await this.inventoryService.create(quantity);
+
+		const newProduct = this.repository.create({
 			name,
 			images,
 			description,
@@ -39,6 +45,7 @@ export class ProductService implements Service {
 			categoryId,
 			price,
 			discount,
+			inventory,
 		});
 
 		return this.repository.save(newProduct);

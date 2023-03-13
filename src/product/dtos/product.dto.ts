@@ -34,4 +34,8 @@ export class ProductDto {
 	@IsOptional()
 	@IsNumber()
 	discountId: number;
+
+	@IsNotEmpty()
+	@IsNumber()
+	quantity: number;
 }
