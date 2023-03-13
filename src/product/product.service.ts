@@ -53,7 +53,11 @@ export class ProductService implements Service {
 
 	findOne = async (id: number): Promise<Product> => {
 		const product = await this.repository.findOne({
-			relations: { discount: true, specifications: true },
+			relations: {
+				discount: true,
+				specifications: true,
+				inventory: { activities: true },
+			},
 			where: { id },
 		});
 
@@ -72,5 +76,26 @@ export class ProductService implements Service {
 		await this.repository.delete(id);
 
 		return product;
+	};
+
+	update = async (
+		id: number,
+		{ quantity, discountId, ...updateProduct }: ProductDto
+	): Promise<Product> => {
+		const product = await this.findOne(id);
+		let inventory;
+		let discount;
+
+		if (quantity !== product.inventory?.quantity)
+			inventory = await this.inventoryService.update(
+				product.inventory?.id as number,
+				{ quantity, author: '' }
+			);
+
+		if (discountId) discount = await this.discountService.findOne(discountId);
+
+		Object.assign(product, { ...updateProduct, inventory, discount });
+
+		return this.repository.save(product);
 	};
 }

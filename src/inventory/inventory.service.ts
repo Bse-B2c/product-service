@@ -55,13 +55,15 @@ export class InventoryService implements Service {
 
 		Object.assign(inventory, { quantity: updateInventory.quantity });
 
+		const updatedInventory = await this.repository.save(inventory);
+
 		await this.activityService.create({
 			author: updateInventory.author,
 			type: type,
-			inventory,
+			inventory: updatedInventory,
 			quantity: inventory.quantity,
 		});
 
-		return this.repository.save(inventory);
+		return updatedInventory;
 	};
 }

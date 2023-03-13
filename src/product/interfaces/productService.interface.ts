@@ -5,4 +5,5 @@ export interface ProductService {
 	create(product: ProductDto): Promise<Product>;
 	findOne(id: number): Promise<Product>;
 	delete(id: number): Promise<Product>;
+	update(id: number, product: ProductDto): Promise<Product>;
 }

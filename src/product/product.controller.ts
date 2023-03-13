@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { HttpStatusCode } from '@bse-b2c/common';
 import { ProductService } from '@product/interfaces/productService.interface';
 import { ProductDto } from '@product/dtos/product.dto';
+import { ParamsDto } from '@common/dtos/params.dto';
 
 export class ProductController {
 	constructor(private service: ProductService) {}
@@ -61,6 +62,41 @@ export class ProductController {
 			const { id } = req.params;
 
 			const response = await this.service.delete(+id);
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
+	update = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const { id } = req.params as unknown as ParamsDto;
+			const {
+				name,
+				images,
+				description,
+				releaseDate,
+				categoryId,
+				discountId,
+				price,
+				quantity,
+			} = req.body as unknown as ProductDto;
+
+			const response = await this.service.update(id, {
+				name,
+				images,
+				description,
+				releaseDate,
+				categoryId,
+				price,
+				discountId,
+				quantity,
+			});
 
 			return res.status(HttpStatusCode.OK).send({
 				statusCode: HttpStatusCode.OK,
