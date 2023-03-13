@@ -1,6 +1,7 @@
-import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Product } from '@product/entity/product.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Activity } from '@activity/entity/activity.entity';
 
+@Entity()
 export class Inventory {
 	@PrimaryGeneratedColumn()
 	id: number;
@@ -8,6 +9,6 @@ export class Inventory {
 	@Column()
 	quantity: number;
 
-	@OneToMany(() => Product, product => product.inventory)
-	product: Array<Product>;
+	@OneToMany(() => Activity, activity => activity.inventory)
+	activities: Array<Activity>;
 }

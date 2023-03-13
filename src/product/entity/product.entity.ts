@@ -1,8 +1,10 @@
 import {
 	Column,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Discount } from '@src/discount/entity/discount.entity';
@@ -38,8 +40,11 @@ export class Product {
 	@ManyToOne(() => Discount, discount => discount.product, { nullable: true })
 	discount: Discount | null;
 
-	@ManyToOne(() => Inventory, inventory => inventory.product)
-	inventory: Inventory;
+	@OneToOne(() => Inventory, {
+		nullable: true,
+	})
+	@JoinColumn()
+	inventory: Inventory | null;
 
 	@OneToMany(() => Specification, specification => specification.product)
 	specifications: Array<Specification>;

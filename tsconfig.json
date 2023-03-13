@@ -22,7 +22,8 @@
       "@product/*": ["./product/*"],
       "@discount/*": ["./discount/*"],
       "@specification/*": ["./specification/*"],
-      "@inventory/*": ["./inventory/*"]
+      "@inventory/*": ["./inventory/*"],
+      "@activity/*": ["./activity/*"]
     }
   },
   "include": ["./**/*.ts"]
