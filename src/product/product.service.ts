@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { DiscountService } from '@discount/interfaces/discountService.interface';
 import { InventoryService } from '@inventory/interfaces/inventoryService.interface';
+import { SearchDto } from '@product/dtos/search.dto';
 
 export class ProductService implements Service {
 	constructor(
@@ -97,5 +98,21 @@ export class ProductService implements Service {
 		Object.assign(product, { ...updateProduct, inventory, discount });
 
 		return this.repository.save(product);
+	};
+
+	find = async (search: SearchDto): Promise<Array<Product>> => {
+		const {
+			sortOrder = 'ASC',
+			orderBy = 'name',
+			page = 0,
+			limit = 10,
+		} = search;
+
+		return this.repository.find({
+			relations: { discount: true, inventory: true },
+			order: { [orderBy]: sortOrder },
+			take: limit,
+			skip: limit * page,
+		});
 	};
 }
