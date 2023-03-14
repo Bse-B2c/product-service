@@ -3,6 +3,7 @@ import { HttpStatusCode } from '@bse-b2c/common';
 import { ProductService } from '@product/interfaces/productService.interface';
 import { ProductDto } from '@product/dtos/product.dto';
 import { ParamsDto } from '@common/dtos/params.dto';
+import { SearchDto } from '@product/dtos/search.dto';
 
 export class ProductController {
 	constructor(private service: ProductService) {}
@@ -96,6 +97,29 @@ export class ProductController {
 				price,
 				discountId,
 				quantity,
+			});
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
+	find = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const { page, orderBy, sortOrder, limit, ...search } =
+				req.query as unknown as SearchDto;
+
+			const response = await this.service.find({
+				...search,
+				orderBy: orderBy ?? 'name',
+				sortOrder: sortOrder ?? 'ASC',
+				limit: limit || 10,
+				page: page || 0,
 			});
 
 			return res.status(HttpStatusCode.OK).send({
