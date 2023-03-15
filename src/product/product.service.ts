@@ -104,6 +104,7 @@ export class ProductService implements Service {
 		const {
 			ids,
 			name,
+			description,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -114,6 +115,9 @@ export class ProductService implements Service {
 		if (ids) where = { ...where, id: In(ids) };
 
 		if (name) where = { ...where, name: ILike(`%${name}%`) };
+
+		if (description)
+			where = { ...where, description: ILike(`%${description}%`) };
 
 		return this.repository.find({
 			relations: { discount: true, inventory: true },
