@@ -32,7 +32,7 @@ export class SearchDto extends BaseSearchFilter {
 	endPrice: number;
 
 	@IsOptional()
-	@IsNumber()
+	@IsNumber({}, { each: true })
 	@Transform(({ value }) => {
 		if (value) return formatQueryToArray(value).map((e: string) => +e);
 

@@ -105,6 +105,7 @@ export class ProductService implements Service {
 			ids,
 			name,
 			description,
+			categories,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -115,6 +116,8 @@ export class ProductService implements Service {
 		if (ids) where = { ...where, id: In(ids) };
 
 		if (name) where = { ...where, name: ILike(`%${name}%`) };
+
+		if (categories) where = { ...where, categoryId: In(categories) };
 
 		if (description)
 			where = { ...where, description: ILike(`%${description}%`) };
