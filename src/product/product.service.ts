@@ -1,7 +1,7 @@
 import { ProductService as Service } from '@product/interfaces/productService.interface';
 import { ProductDto } from '@product/dtos/product.dto';
 import { Product } from '@product/entity/product.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { DiscountService } from '@discount/interfaces/discountService.interface';
 import { InventoryService } from '@inventory/interfaces/inventoryService.interface';
@@ -102,14 +102,19 @@ export class ProductService implements Service {
 
 	find = async (search: SearchDto): Promise<Array<Product>> => {
 		const {
+			ids,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
 			limit = 10,
 		} = search;
+		let where: FindOptionsWhere<Product> = {};
+
+		if (ids) where = { ...where, id: In(ids) };
 
 		return this.repository.find({
 			relations: { discount: true, inventory: true },
+			where,
 			order: { [orderBy]: sortOrder },
 			take: limit,
 			skip: limit * page,
