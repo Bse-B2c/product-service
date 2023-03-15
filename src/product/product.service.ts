@@ -1,7 +1,15 @@
 import { ProductService as Service } from '@product/interfaces/productService.interface';
 import { ProductDto } from '@product/dtos/product.dto';
 import { Product } from '@product/entity/product.entity';
-import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
+import {
+	Between,
+	FindOptionsWhere,
+	ILike,
+	In,
+	LessThanOrEqual,
+	MoreThanOrEqual,
+	Repository,
+} from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { DiscountService } from '@discount/interfaces/discountService.interface';
 import { InventoryService } from '@inventory/interfaces/inventoryService.interface';
@@ -106,6 +114,8 @@ export class ProductService implements Service {
 			name,
 			description,
 			categories,
+			startPrice,
+			endPrice,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -121,6 +131,23 @@ export class ProductService implements Service {
 
 		if (description)
 			where = { ...where, description: ILike(`%${description}%`) };
+
+		if (startPrice && endPrice) {
+			where = {
+				...where,
+				price: Between(startPrice, endPrice),
+			};
+		} else if (startPrice) {
+			where = {
+				...where,
+				price: MoreThanOrEqual(startPrice),
+			};
+		} else if (endPrice) {
+			where = {
+				...where,
+				price: LessThanOrEqual(endPrice),
+			};
+		}
 
 		return this.repository.find({
 			relations: { discount: true, inventory: true },
