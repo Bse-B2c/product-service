@@ -36,7 +36,7 @@ export class SearchDto extends BaseSearchFilter {
 	@Transform(({ value }) => {
 		if (value) return formatQueryToArray(value).map((e: string) => +e);
 
-		return value;
+		return undefined;
 	})
 	categories: Array<number>;
 
