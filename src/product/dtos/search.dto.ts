@@ -1,5 +1,11 @@
 import { BaseSearchFilter } from '@common/dtos/baseSearchFilter.dto';
-import { IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+	IsBoolean,
+	IsIn,
+	IsNumber,
+	IsOptional,
+	IsString,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 import { formatQueryToArray } from '@common/utils/query.utils';
 
@@ -30,6 +36,11 @@ export class SearchDto extends BaseSearchFilter {
 	@IsNumber()
 	@Transform(({ value }) => +value)
 	endPrice: number;
+
+	@IsOptional()
+	@Transform(({ value }) => value === 'true')
+	@IsBoolean()
+	discount: boolean;
 
 	@IsOptional()
 	@IsNumber({}, { each: true })

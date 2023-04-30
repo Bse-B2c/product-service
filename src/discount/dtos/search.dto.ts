@@ -17,21 +17,21 @@ export class SearchDto extends BaseSearchFilter {
 
 		return value;
 	})
-	ids: Array<number>;
+	ids?: Array<number>;
 
 	@IsOptional()
 	@IsString()
-	name: string;
+	name?: string;
 
 	@IsOptional()
 	@Transform(({ value }) => value === 'true')
 	@IsBoolean()
-	active: boolean;
+	active?: boolean;
 
 	@IsOptional()
 	@Transform(({ value }) => +value)
 	@IsNumber()
-	discountPercent: number;
+	discountPercent?: number;
 
 	@IsString()
 	@IsIn(['id', 'name', 'active', 'discountPercent'])

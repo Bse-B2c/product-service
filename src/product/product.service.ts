@@ -116,6 +116,7 @@ export class ProductService implements Service {
 			categories,
 			startPrice,
 			endPrice,
+			discount,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -131,6 +132,18 @@ export class ProductService implements Service {
 
 		if (description)
 			where = { ...where, description: ILike(`%${description}%`) };
+
+		if (discount) {
+			const discounts = await this.discountService.find({
+				active: true,
+				limit: limit,
+			});
+
+			where = {
+				...where,
+				discount: { id: In(discounts.map(discount => discount.id)) },
+			};
+		}
 
 		if (startPrice && endPrice) {
 			where = {
