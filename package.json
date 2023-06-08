@@ -1,7 +1,7 @@
 {
   "name": "product-service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Service with CRUD that allows product management along with inventory and discount",
   "main": "dist/src/index.js",
   "scripts": {
     "start": "node dist/server.js",
